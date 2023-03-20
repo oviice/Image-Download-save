@@ -20,6 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Run lint
+        run: ./gradlew lintDebug
       - name: Run a one-line script
         run: echo Hello world
 
