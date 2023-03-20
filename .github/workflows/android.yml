@@ -22,7 +22,14 @@ jobs:
         run: ./gradlew lintDebug
 
 
-  #unit-test:
+  unit-test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run test
+        run: ./gradlew test
 
 #      - name: Run a one-line script
 #        run: echo Hello world
