@@ -44,22 +44,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File path = getDir("imageDir", MODE_PRIVATE);
-                String name = "DemoPicture.jpg";
-                File myDir = new File(path, name);
-                Bitmap myBitmap = BitmapFactory.decodeFile(myDir.getAbsolutePath());
-                imageView.setImageBitmap(myBitmap);
-            }
+        findViewById(R.id.preview).setOnClickListener(v -> {
+            File path1 = getDir("imageDir", MODE_PRIVATE);
+            String name = "DemoPicture.jpg";
+            File myDir = new File(path1, name);
+            Bitmap myBitmap = BitmapFactory.decodeFile(myDir.getAbsolutePath());
+            imageView.setImageBitmap(myBitmap);
         });
-        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadBitmap("https://arlacompassblob.blob.core.windows.net/arlacompassblob/SKUImages/7517.png");
-            }
-        });
+        findViewById(R.id.download).setOnClickListener(v -> loadBitmap("https://arlacompassblob.blob.core.windows.net/arlacompassblob/SKUImages/7517.png"));
     }
 
 
