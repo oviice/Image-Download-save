@@ -2,29 +2,24 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ master ]
 
-jobs:
-  build:
+  workflow_dispatch:
 
-    runs-on: ubuntu-latest
+  jobs:
+    build:
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
+      runs-on: ubuntu-latest
 
-      - name: Run a one-line script
+      steps:
+        - uses: actions/checkout@v1
+
+        - name: Run a one-line script
           run: echo Hello world
 
-      - name: Run a multi-line script
+        - name: Run a multi-line script
           run: |
-              echo Run other lines
-              echo test, deploy and built
-        
+            echo Run other lines
+            echo test, deploy and built
