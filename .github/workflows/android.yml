@@ -45,7 +45,7 @@ jobs:
   #          script: ./gradlew connectedCheck
   instrumentation-test:
     needs: [unit-test]
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
       - uses: actions/checkout@v3
 
