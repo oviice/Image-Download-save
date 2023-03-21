@@ -44,23 +44,23 @@ jobs:
   #          api-level: 29
   #          script: ./gradlew connectedCheck
   instrumentation-test:
-    needs: [unit-test]
+    #needs: [unit-test]
     runs-on: macos-latest
     env:
       DISABLE_TENCENT_MAVEN_MIRROR: true
-      steps:
-        - name: checkout
-          uses: actions/checkout@v2
-        - name: buildSdk
-          run: ./gradlew wrapper; ./gradlew buildSdk
-        - name: lintSdk
-          run: ./gradlew wrapper; ./gradlew lintSdk
-        - name: build sample/source
-          run: ./gradlew wrapper; ./gradlew build
-        - name: unit test
-          run: ./gradlew wrapper; ./gradlew jvmTestSdk -S
-        - name: run androidTestSdk on API 28 emulator
-          uses: reactivecircus/android-emulator-runner@v2
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: buildSdk
+        run: ./gradlew wrapper; ./gradlew buildSdk
+      - name: lintSdk
+        run: ./gradlew wrapper; ./gradlew lintSdk
+      - name: build sample/source
+        run: ./gradlew wrapper; ./gradlew build
+      - name: unit test
+        run: ./gradlew wrapper; ./gradlew jvmTestSdk -S
+      - name: run androidTestSdk on API 28 emulator
+        uses: reactivecircus/android-emulator-runner@v2
           with:
             api-level: 28
             emulator-build: 7425822
