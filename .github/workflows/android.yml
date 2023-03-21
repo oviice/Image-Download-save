@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Android emulator
         run: |
-            sdkmanager --install "system-images;android-31;google_apis;x86_64"
+            sdkmanager --install "system-images;android-31;google_apis;x64"
             echo "no" | avdmanager --verbose create avd --force --name testAVD --abi google_apis/x86_64 --package 'system-images;android-31;google_apis;x86_64'
 
       - name: Copy jar files to app folder
@@ -67,7 +67,10 @@ jobs:
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 28
+#          target: default
+#          arch: x64
+#          profile: pixel_xl
           script: ./gradlew connectedCheck
 
 #      - name: Run a one-line script
