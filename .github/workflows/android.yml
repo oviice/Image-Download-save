@@ -45,15 +45,19 @@ jobs:
   #          script: ./gradlew connectedCheck
   instrumentation-test:
     needs: [unit-test]
-    runs-on: macos-11.0
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 27
-          script: ./gradlew connectedCheck
+          api-level: 28
+          emulator-build: 7425822
+          target: default
+          arch: x86_64
+          profile: pixel_xl
+          script: ./gradlew wrapper; ./gradlew androidTestSdk
 
 #      - name: Run a one-line script
 #        run: echo Hello world
