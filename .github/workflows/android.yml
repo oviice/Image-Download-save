@@ -61,13 +61,13 @@ jobs:
         run: ./gradlew wrapper; ./gradlew jvmTestSdk -S
       - name: run androidTestSdk on API 28 emulator
         uses: reactivecircus/android-emulator-runner@v2
-          with:
-            api-level: 28
-            emulator-build: 7425822
-            target: default
-            arch: x86_64
-            profile: pixel_xl
-            script: ./gradlew wrapper; ./gradlew androidTestSdk
+        with:
+          api-level: 28
+          emulator-build: 7425822
+          target: default
+          arch: x86_64
+          profile: pixel_xl
+          script: ./gradlew wrapper; ./gradlew androidTestSdk
 
 #      - name: Run a one-line script
 #        run: echo Hello world
