@@ -52,7 +52,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name:avd
-        run: adb kill-server && adb start-server
+        run: |
+            adb kill-server && adb start-server
 #      - name: buildSdk
 #        run: ./gradlew wrapper; ./gradlew buildSdk
 #      - name: lintSdk
