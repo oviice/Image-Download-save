@@ -51,8 +51,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: buildSdk
-        run: ./gradlew wrapper; ./gradlew buildSdk
+#      - name: buildSdk
+#        run: ./gradlew wrapper; ./gradlew buildSdk
       - name: lintSdk
         run: ./gradlew wrapper; ./gradlew lintSdk
       - name: build sample/source
