@@ -44,7 +44,7 @@ jobs:
   #          api-level: 29
   #          script: ./gradlew connectedCheck
   instrumentation-test:
-    needs: [unit-test]
+    #needs: [unit-test]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -57,12 +57,12 @@ jobs:
 #            sdkmanager --install "system-images;android-31;google_apis;x64"
 #            echo no | android create avd -n name -t 9
 
-      - name: Copy jar files to app folder
-        run: gradle extractLibs
-
-      - name: Launch Emulator
-        run: |
-            $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
+#      - name: Copy jar files to app folder
+#        run: gradle extractLibs
+#
+#      - name: Launch Emulator
+#        run: |
+#            $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
 
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
