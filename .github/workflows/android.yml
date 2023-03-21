@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: set up JDK 11
         uses: actions/setup-java@v2
         with:
@@ -26,7 +26,7 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Run test
         run: ./gradlew test
@@ -46,32 +46,28 @@ jobs:
   instrumentation-test:
     needs: [unit-test]
     runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Create directory for jni libs
-        run: mkdir app/libs && mkdir app/libs/arm64-v8a
-
-#      - name: Create Android emulator
-#        run: |
-#            sdkmanager --install "system-images;android-31;google_apis;x64"
-#            echo no | android create avd -n name -t 9
-
-#      - name: Copy jar files to app folder
-#        run: gradle extractLibs
-#
-#      - name: Launch Emulator
-#        run: |
-#            $ANDROID_SDK_ROOT/emulator/emulator -avd testAVD
-
-      - name: Run espresso test
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 28
-#          target: default
-#          arch: x64
-#          profile: pixel_xl
-          script: ./gradlew connectedCheck
+    env:
+      DISABLE_TENCENT_MAVEN_MIRROR: true
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: buildSdk
+          run: ./gradlew wrapper; ./gradlew buildSdk
+        - name: lintSdk
+          run: ./gradlew wrapper; ./gradlew lintSdk
+        - name: build sample/source
+          run: ./gradlew wrapper; ./gradlew build
+        - name: unit test
+          run: ./gradlew wrapper; ./gradlew jvmTestSdk -S
+        - name: run androidTestSdk on API 28 emulator
+          uses: reactivecircus/android-emulator-runner@v2
+          with:
+            api-level: 28
+            emulator-build: 7425822
+            target: default
+            arch: x86_64
+            profile: pixel_xl
+            script: ./gradlew wrapper; ./gradlew androidTestSdk
 
 #      - name: Run a one-line script
 #        run: echo Hello world
