@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -32,45 +32,17 @@ jobs:
         run: ./gradlew test
 
 
-#  test:
-  #    runs-on: macos-latest
-  #    steps:
-  #      - name: checkout
-  #        uses: actions/checkout@v3
-  #
-  #      - name: run tests
-  #        uses: reactivecircus/android-emulator-runner@v2
-  #        with:
-  #          api-level: 29
-  #          script: ./gradlew connectedCheck
   instrumentation-test:
-    #needs: [unit-test]
+    needs: [unit-test]
     runs-on: macos-latest
-    env:
-      DISABLE_TENCENT_MAVEN_MIRROR: true
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: avd
-        run: |
-          adb kill-server && adb start-server
-#      - name: buildSdk
-#        run: ./gradlew wrapper; ./gradlew buildSdk
-#      - name: lintSdk
-#        run: ./gradlew wrapper; ./gradlew lintSdk
-#      - name: build sample/source
-#        run: ./gradlew wrapper; ./gradlew build
-#      - name: unit test
-#        run: ./gradlew wrapper; ./gradlew jvmTestSdk -S
-      - name: run androidTestSdk on API 28 emulator
+      - uses: actions/checkout@v3
+
+      - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 28
-          emulator-build: 7425822
-          target: default
-          arch: x86_64
-          profile: pixel_xl
-          script: ./gradlew wrapper; ./gradlew androidTestSdk
+          api-level: 29
+          script: ./gradlew connectedCheck
 
 #      - name: Run a one-line script
 #        run: echo Hello world
