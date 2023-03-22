@@ -24,9 +24,22 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-
+      - name: Set up Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            api-level: 30
+            arch: x86_64
+            profile: Nexus 5X API 30
+            install-addons: "google_apis;google_play_services"
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Build and run tests
+        run: ./gradlew build connectedCheck --no-daemon
+        env:
+          # Set the emulator serial number as an environment variable to run the tests on the emulator.
+          ANDROID_SERIAL: emulator-5554
+
       - name: Build with Gradle
         run: ./gradlew build
 
