@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup Android SDK Platform-Tools
-        uses: android-actions/setup-android-sdk@v2
+        uses: https://github.com/android-actions/setup-android-sdk@v2
         with:
           components: platform-tools
 
