@@ -6,109 +6,44 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  APP_NAME: "Image Download AND Save"
-  APP_PACKAGE_NAME: "com.example.imagedownloadsave"
-  APP_VERSION_CODE: 1
-  APP_VERSION_NAME: "1.0"
-
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Android SDK Platform-Tools
-        uses: https://github.com/android-actions/setup-android-sdk@v2
-        with:
-          components: platform-tools
-
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-      - name: Set up Android emulator
+
+      - name: Run lint
+        run: ./gradlew lintDebug
+
+
+  unit-test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run test
+        run: ./gradlew test
+
+
+  instrumentation-test:
+    needs: [unit-test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-            api-level: 30
-            arch: x86_64
-            profile: Nexus 5X API 30
-            emulator-build: 'system-images;android-30;google_apis_playstore;x86_64'
-            working-directory: ${{ github.workspace }}
+          api-level: 29
+          script: ./gradlew connectedCheck
 
-      - name: Install Android SDK Platform
-        run: sdkmanager "platforms;android-30"
-        env:
-          ANDROID_SDK_ROOT: ${{ runner.toolsDirectory }}/android-sdk
-
-      - name: Install required build tools
-        run: sdkmanager "build-tools;30.0.3" "platform-tools"
-        env:
-          ANDROID_SDK_ROOT: ${{ runner.toolsDirectory }}/android-sdk
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build and run tests
-        run: ./gradlew build connectedCheck --no-daemon
-        env:
-          # Set the emulator serial number as an environment variable to run the tests on the emulator.
-          ANDROID_SERIAL: emulator-5554
-
-      - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Build and test with Gradle
-        run: ./gradlew testDebugUnitTest connectedDebugAndroidTest
-
-      - name: Build Android APK
-        run: ./gradlew assembleDebug
-
-      - name: Deploy APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.APP_NAME }}
-          path: app/build/outputs/apk/debug/app-debug.apk
-#jobs:
-#  lint:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: set up JDK 11
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: '11'
-#          distribution: 'temurin'
-#          cache: gradle
-#
-#      - name: Run lint
-#        run: ./gradlew lintDebug
-#
-#
-#  unit-test:
-#    needs: [lint]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: Run test
-#        run: ./gradlew test
-#
-#
-#  instrumentation-test:
-#    needs: [unit-test]
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: Run espresso test
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 29
-#          script: ./gradlew connectedCheck
-#
 ##      - name: Run a one-line script
 ##        run: echo Hello world
 ##
