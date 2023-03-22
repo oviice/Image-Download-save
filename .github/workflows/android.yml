@@ -6,49 +6,78 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  APP_NAME: "Image Download AND Save"
+  APP_PACKAGE_NAME: "com.example.imagedownloadsave"
+  APP_VERSION_CODE: 1
+  APP_VERSION_NAME: "1.0"
+
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v1
         with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
+          java-version: 8
 
-      - name: Run lint
-        run: ./gradlew lintDebug
+      - name: Build and test with Gradle
+        run: ./gradlew testDebugUnitTest connectedDebugAndroidTest
 
+      - name: Build Android APK
+        run: ./gradlew assembleDebug
 
-  unit-test:
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run test
-        run: ./gradlew test
-
-
-  instrumentation-test:
-    needs: [unit-test]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run espresso test
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: Deploy APK
+        uses: actions/upload-artifact@v2
         with:
-          api-level: 29
-          script: ./gradlew connectedCheck
-
-#      - name: Run a one-line script
-#        run: echo Hello world
+          name: ${{ env.APP_NAME }}
+          path: app/build/outputs/apk/debug/app-debug.apk
+#jobs:
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: set up JDK 11
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '11'
+#          distribution: 'temurin'
+#          cache: gradle
 #
-#      - name: Run a multi-line script
-#        run: |
-#              echo Run other lines
-#              echo test, deploy and built
+#      - name: Run lint
+#        run: ./gradlew lintDebug
 #
+#
+#  unit-test:
+#    needs: [lint]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Run test
+#        run: ./gradlew test
+#
+#
+#  instrumentation-test:
+#    needs: [unit-test]
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Run espresso test
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 29
+#          script: ./gradlew connectedCheck
+#
+##      - name: Run a one-line script
+##        run: echo Hello world
+##
+##      - name: Run a multi-line script
+##        run: |
+##              echo Run other lines
+##              echo test, deploy and built
+##
