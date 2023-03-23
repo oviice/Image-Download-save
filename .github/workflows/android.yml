@@ -33,12 +33,12 @@ jobs:
 
 
   instrumentation-test:
-    needs: [unit-test]
+    #needs: [unit-test]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Clean Gradle cache
-        run: ./gradlew cleanBuildCache --stacktrace
+        run: ./gradlew cleanBuildCache --info
 
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
