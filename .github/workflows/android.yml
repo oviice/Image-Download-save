@@ -46,7 +46,7 @@ jobs:
           arch: x86_64
           profile: Nexus 5X
           serial-port: 5554
-
+          script: ./gradlew connectedDebugAndroidTest --info --stacktrace
       - name: Wait for emulator to start up
         run: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
 
