@@ -37,7 +37,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-
+      - name: Run test
+        run: ./gradlew test
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
