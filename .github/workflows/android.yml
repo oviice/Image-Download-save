@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Clean Gradle cache
-        run: ./gradlew cleanBuildCache
+        run: ./gradlew cleanBuildCache --stacktrace
 
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
