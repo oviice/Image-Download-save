@@ -41,8 +41,17 @@ jobs:
       - name: Run espresso test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          script: ./gradlew connectedCheck
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: Nexus 5X
+          serial-port: 5554
+
+      - name: Wait for emulator to start up
+        run: adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+
+      - name: Run instrumentation tests
+        run: ./gradlew connectedDebugAndroidTest --no-daemon
 
 ##      - name: Run a one-line script
 ##        run: echo Hello world
