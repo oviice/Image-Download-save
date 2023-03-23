@@ -31,6 +31,8 @@ jobs:
       - name: Run test
         run: ./gradlew test
 
+      - name: Clean Gradle cache
+        run: ./gradlew cleanBuildCache --debug
 
   instrumentation-test:
     #needs: [unit-test]
