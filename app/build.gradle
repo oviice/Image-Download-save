@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.firebase.appdistribution'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -7,7 +9,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.imagedownloadsave"
+        applicationId "com.ovi.imagedownloadsave"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -15,6 +17,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            firebaseAppDistribution {
+                releaseNotes="Release notes for demo version"
+                groups="qa"
+                //testers="demo@testers.com"
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

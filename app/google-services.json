@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "780977292320",
+    "project_id": "image-download-save",
+    "storage_bucket": "image-download-save.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780977292320:android:bce20c13d241194c2de845",
+        "android_client_info": {
+          "package_name": "com.ovi.imagedownloadsave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780977292320-hdphhnrederc891uaga49chr98jesu4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTmtN9iDS-v4l2EQ2LZ645mv_hJjV62-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780977292320-hdphhnrederc891uaga49chr98jesu4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
